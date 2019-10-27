@@ -2,10 +2,12 @@ import React from 'react'
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
+
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrderScreen from '../screens/shop/OrderScreen';
+import UserProductScreen from '../screens/user/UserProductScreen'
 
 import Color from '../constants/Color';
 import {Platform} from 'react-native';
@@ -34,6 +36,20 @@ const ProductNavigator = createStackNavigator(
   },
 );
 
+const AdminNavigator = createStackNavigator(
+  {
+    UserProducts: UserProductScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: drawerConfig => (
+        <Icon name="edit" size={23} color={drawerConfig.tintColor} />
+      ),
+    },
+    defaultNavigationOptions: defaultNavOptions,
+  },
+);
+
 const OrderNavigator = createStackNavigator(
   {
     Orders: OrderScreen,
@@ -52,6 +68,7 @@ const ShopNavigator = createDrawerNavigator(
   {
     Products: ProductNavigator,
     Orders: OrderNavigator,
+    Admin: AdminNavigator
   },
   {
     contentOptions: {
