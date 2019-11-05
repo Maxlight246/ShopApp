@@ -1,13 +1,18 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, Button } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
 import Color from '../../constants/Color'
+import * as productsAction from '../../store/actions/product'
 
 const UserProductScreen = props => {
   const userProducts = useSelector(state => state.products.userProducts);
+  const dispatch = useDispatch()
+  const editProductHandler = (id) =>{
+        props.navigation.navigate('EditProducts',{productId:id})
+  }
 
   return (
       <View style={styles.container}>
@@ -25,14 +30,14 @@ const UserProductScreen = props => {
             color={Color.primary}
             title="Edit"
             onPress={() => {
-                alert('Edit')
+                editProductHandler(itemData.item.id)
               }}
           />
           <Button
             color={Color.primary}
             title="Delete"
             onPress={()=>{
-               alert('Delete')
+               dispatch(productsAction.deleteProduct(itemData.item.id))
             }}
           />
         </ProductItem>
@@ -45,7 +50,7 @@ const UserProductScreen = props => {
 UserProductScreen.navigationOptions = navData => {
     return {
       headerTitle: 'Your Product',
-      headerLeft: (
+      headerLeft:(
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item
             title="Menu"
@@ -56,6 +61,17 @@ UserProductScreen.navigationOptions = navData => {
           />
         </HeaderButtons>
       ),
+      headerRight:(
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Menu"
+            iconName="edit"
+            onPress={() => {
+              navData.navigation.navigate('EditProducts')
+            }}
+          />
+        </HeaderButtons>
+      )
     };
   };
 

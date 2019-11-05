@@ -27,6 +27,7 @@ const ProductItem = props => {
       </View>
     </View>
     </TouchableCmp>
+    
   );
 };
 
